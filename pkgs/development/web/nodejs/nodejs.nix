@@ -83,6 +83,8 @@ in
       ${optionalString enableNpm ''
         mkdir -p $out/share/bash-completion/completions/
         $out/bin/npm completion > $out/share/bash-completion/completions/npm
+        mkdir $out/etc
+        echo "update-notifier = false" > $out/etc/npmrc
       ''}
 
       # install the missing headers for node-gyp
