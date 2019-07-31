@@ -1,10 +1,19 @@
-{ lib, bundlerEnv, ruby, bundlerUpdateScript }:
+{ lib, bundlerApp, bundlerUpdateScript }:
 
-bundlerEnv {
-  inherit ruby;
-
+bundlerApp {
   pname = "fluentd";
   gemdir = ./.;
+
+  exes = [
+    "fluent-binlog-reader"
+    "fluent-ca-generate"
+    "fluent-cat"
+    "fluent-debug"
+    "fluent-gem"
+    "fluent-plugin-config-format"
+    "fluent-plugin-generate"
+    "fluentd"
+  ];
 
   passthru.updateScript = bundlerUpdateScript "fluentd";
 

@@ -1,8 +1,8 @@
-{ lib, bundlerEnv, ruby, bundlerUpdateScript }:
+{ lib, bundlerApp, bundlerUpdateScript }:
 
-bundlerEnv {
-  inherit ruby;
+bundlerApp {
   pname = "hiera-eyaml";
+  exes = [ "eyaml" ];
   gemdir = ./.;
 
   passthru.updateScript = bundlerUpdateScript "hiera-eyaml";

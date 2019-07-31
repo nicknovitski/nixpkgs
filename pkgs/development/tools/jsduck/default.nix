@@ -1,25 +1,9 @@
-{ stdenv, lib, bundlerEnv, makeWrapper, bundlerUpdateScript }:
+{ lib, bundlerApp, bundlerUpdateScript }:
 
-stdenv.mkDerivation rec {
+bundlerApp {
   pname = "jsduck";
-  name = "${pname}-${version}";
-  version = (import ./gemset.nix).jsduck.version;
-
-  env = bundlerEnv {
-    name = "${pname}";
-    gemfile = ./Gemfile;
-    lockfile = ./Gemfile.lock;
-    gemset = ./gemset.nix;
-  };
-
-  phases = [ "installPhase" ];
-
-  buildInputs = [ env makeWrapper ];
-
-  installPhase = ''
-    mkdir -p $out/bin
-    makeWrapper ${env}/bin/jsduck $out/bin/jsduck
-  '';
+  exes = [ "jsduck" ];
+  gemdir = ./.;
 
   passthru.updateScript = bundlerUpdateScript "jsduck";
 

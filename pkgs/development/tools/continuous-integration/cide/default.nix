@@ -1,23 +1,16 @@
-{ stdenv, lib, bundlerEnv, bundlerUpdateScript, makeWrapper, docker, git, gnutar, gzip }:
+{ lib, bundlerApp, bundlerUpdateScript, makeWrapper, docker, git, gnutar, gzip
+}:
 
-stdenv.mkDerivation rec {
-  name = "cide-${version}";
-  version = "0.9.0";
-
-  env = bundlerEnv {
-    name = "${name}-gems";
-
-    gemdir = ./.;
-  };
-
-  phases = ["installPhase"];
+bundlerApp {
+  pname = "cide";
+  exes = [ "cide" ];
+  gemdir = ./.;
 
   buildInputs = [ makeWrapper ];
 
-  installPhase = ''
-    mkdir -p $out/bin
-    makeWrapper ${env}/bin/cide $out/bin/cide \
-      --set PATH ${stdenv.lib.makeBinPath [ docker git gnutar gzip ]}
+  postBuild = ''
+    wrapProgram $out/bin/cide \
+      --set PATH ${lib.makeBinPath [ docker git gnutar gzip ]}
   '';
 
   passthru.updateScript = bundlerUpdateScript "cide";

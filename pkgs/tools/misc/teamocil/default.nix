@@ -1,8 +1,8 @@
-{ lib, bundlerEnv, ruby, bundlerUpdateScript }:
+{ lib, bundlerApp, bundlerUpdateScript }:
 
-bundlerEnv rec {
-  inherit ruby;
+bundlerApp {
   pname = "teamocil";
+  exes = [ "teamocil" ];
   gemdir = ./.;
 
   passthru.updateScript = bundlerUpdateScript "teamocil";

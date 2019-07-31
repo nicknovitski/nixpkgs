@@ -1,15 +1,13 @@
-{ stdenv, bundlerEnv, ruby, bundlerUpdateScript }:
+{ lib, bundlerApp, bundlerUpdateScript }:
 
-bundlerEnv rec {
-  inherit ruby;
-
+bundlerApp {
   pname = "git_fame";
-
+  exes = [ "git-fame" ];
   gemdir = ./.;
 
   passthru.updateScript = bundlerUpdateScript "gitAndTools.git-fame";
 
-  meta = with stdenv.lib; {
+  meta = with lib; {
     description = ''
       A command-line tool that helps you summarize and pretty-print collaborators based on contributions
       '';

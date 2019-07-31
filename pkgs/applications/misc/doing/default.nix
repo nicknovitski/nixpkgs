@@ -1,11 +1,9 @@
-{ lib, bundlerEnv, ruby, bundlerUpdateScript
-}:
+{ lib, bundlerApp, bundlerUpdateScript }:
 
-bundlerEnv rec {
+bundlerApp {
   pname = "doing";
-  version = (import ./gemset.nix).doing.version;
+  exes = [ "doing" ];
 
-  inherit ruby;
   gemdir = ./.;
 
   passthru.updateScript = bundlerUpdateScript "doing";

@@ -1,23 +1,14 @@
-{ stdenv, lib, bundlerEnv, ruby, bundlerUpdateScript, xsel, makeWrapper }:
+{ lib, bundlerApp, bundlerUpdateScript, xsel, makeWrapper }:
 
-stdenv.mkDerivation rec {
-  name = "pws-${(import ./gemset.nix).pws.version}";
-
-  env = bundlerEnv {
-    name = "${name}-gems";
-
-    inherit ruby;
-
-    gemdir = ./.;
-  };
+bundlerApp {
+  pname = "pws";
+  exes = [ "pws" ];
+  gemdir = ./.;
 
   buildInputs = [ makeWrapper ];
 
-  phases = ["installPhase"];
-
-  installPhase = ''
-    mkdir -p $out/bin
-    makeWrapper ${env}/bin/pws $out/bin/pws \
+  postBuild = ''
+    wrapProgram $out/bin/pws \
       --set PATH '"${xsel}/bin/:$PATH"'
   '';
 

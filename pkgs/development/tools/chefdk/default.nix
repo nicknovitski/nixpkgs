@@ -1,8 +1,8 @@
-{ lib, bundlerEnv, bundlerUpdateScript, ruby_2_4, perl, autoconf }:
+{ lib, bundlerApp, bundlerUpdateScript, ruby_2_4, perl, autoconf }:
 
-bundlerEnv rec {
+bundlerApp {
   pname = "chef-dk";
-
+  exes = [ "chef" ];
   ruby = ruby_2_4;
   gemdir = ./.;
 

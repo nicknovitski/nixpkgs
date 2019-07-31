@@ -1,23 +1,9 @@
-{ stdenv, lib, bundlerEnv, bundlerUpdateScript, makeWrapper }:
+{ lib, bundlerApp, bundlerUpdateScript }:
 
-stdenv.mkDerivation rec {
-  name = "reckon-${version}";
-  version = (import ./gemset.nix).reckon.version;
-
-  env = bundlerEnv {
-    name = "${name}-gems";
-
-    gemdir = ./.;
-  };
-
-  phases = [ "installPhase" ];
-
-  buildInputs = [ makeWrapper ];
-
-  installPhase = ''
-    mkdir -p $out/bin
-    makeWrapper ${env}/bin/reckon $out/bin/reckon
-  '';
+bundlerApp {
+  pname = "reckon";
+  exes = [ "reckon" ];
+  gemdir = ./.;
 
   passthru.updateScript = bundlerUpdateScript "reckon";
 

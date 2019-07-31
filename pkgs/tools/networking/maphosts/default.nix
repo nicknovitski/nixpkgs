@@ -1,20 +1,9 @@
-{ stdenv, lib, bundlerEnv, ruby, bundlerUpdateScript }:
+{ lib, bundlerApp, bundlerUpdateScript }:
 
-stdenv.mkDerivation rec {
-  name = "maphosts-${env.gems.maphosts.version}";
-
-  env = bundlerEnv {
-    name = "maphosts-gems";
-    inherit ruby;
-    gemdir = ./.;
-  };
-
-  phases = ["installPhase"];
-
-  installPhase = ''
-    mkdir -p "$out/bin"
-    ln -s "${env}/bin/maphosts" "$out/bin/maphosts"
-  '';
+bundlerApp {
+  pname = "maphosts";
+  exes = [ "maphosts" ];
+  gemdir = ./.;
 
   passthru.updateScript = bundlerUpdateScript "maphosts";
 

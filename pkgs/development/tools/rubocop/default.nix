@@ -1,10 +1,8 @@
-{ lib, bundlerEnv, ruby, bundlerUpdateScript }:
+{ lib, bundlerApp, bundlerUpdateScript }:
 
-bundlerEnv rec {
+bundlerApp {
   pname = "rubocop";
-
-  inherit ruby;
-
+  exes = [ "rubocop" ];
   gemdir = ./.;
 
   passthru.updateScript = bundlerUpdateScript "rubocop";
@@ -13,7 +11,7 @@ bundlerEnv rec {
     description = "Automatic Ruby code style checking tool";
     homepage = "https://docs.rubocop.org/";
     license = licenses.mit;
-    maintainers = with maintainers; [ marsam leemachin ];
+    maintainers = with maintainers; [ marsam leemachin nicknovitski ];
     platforms = platforms.unix;
   };
 }

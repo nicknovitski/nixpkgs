@@ -1,13 +1,9 @@
-{ lib, bundlerEnv, ruby, bundlerUpdateScript }:
+{ lib, bundlerApp, bundlerUpdateScript }:
 
-bundlerEnv rec {
-  name = "bitbucket-server-cli-${version}";
-
-  version = (import ./gemset.nix).atlassian-stash.version;
-  inherit ruby;
-  gemdir = ./.;
-
+bundlerApp {
   pname = "atlassian-stash";
+  gemdir = ./.;
+  exes = [ "stash" ];
 
   passthru.updateScript = bundlerUpdateScript "gitAndTools.bitbucket-server-cli";
 

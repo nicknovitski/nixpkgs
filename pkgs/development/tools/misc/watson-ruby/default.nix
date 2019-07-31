@@ -1,27 +1,13 @@
-{ stdenv, bundlerEnv, ruby, bundlerUpdateScript }:
+{ lib, bundlerApp, bundlerUpdateScript }:
 
-
-stdenv.mkDerivation rec {
-  name = "watson-ruby-${version}";
-  version = (import ./gemset.nix).watson-ruby.version;
-
-  env = bundlerEnv rec {
-    name = "watson-ruby-gems-${version}";
-    inherit ruby;
-    # expects Gemfile, Gemfile.lock and gemset.nix in the same directory
-    gemdir = ./.;
-  };
-
-  phases = [ "installPhase" ];
-
-  installPhase = ''
-    mkdir -p $out/bin
-    ln -s ${env}/bin/watson $out/bin/watson
-  '';
+bundlerApp {
+  pname = "watson-ruby";
+  exes = [ "watson" ];
+  gemdir = ./.;
 
   passthru.updateScript = bundlerUpdateScript "watson-ruby";
 
-  meta = with stdenv.lib; {
+  meta = with lib; {
     description = "An inline issue manager";
     homepage    = http://goosecode.com/watson/;
     license     = with licenses; mit;

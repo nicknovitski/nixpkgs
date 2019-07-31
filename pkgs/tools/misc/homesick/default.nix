@@ -1,12 +1,12 @@
-{ lib, bundlerEnv, bundlerUpdateScript, git }:
-bundlerEnv {
-  pname = "homesick";
+{ lib, bundlerApp, bundlerUpdateScript, git }:
 
+bundlerApp {
+  pname = "homesick";
+  exes = [ "homesick" ];
   gemdir = ./.;
 
   # Cannot use `wrapProgram` because the the help is aware of the file name.
-  postInstall = ''
-    rm $out/bin/thor
+  postBuild = ''
     sed 1a'ENV["PATH"] = "${git}/bin:#{ENV["PATH"] ? ":#{ENV["PATH"]}" : "" }"' -i $out/bin/homesick
   '';
 

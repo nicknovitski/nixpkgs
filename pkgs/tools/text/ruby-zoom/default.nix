@@ -1,9 +1,8 @@
-{ lib, bundlerEnv, ruby, bundlerUpdateScript }:
+{ lib, bundlerApp, bundlerUpdateScript }:
 
-bundlerEnv {
+bundlerApp {
   pname = "ruby-zoom";
-
-  inherit ruby;
+  exes = [ "z" "zc" "zf" "zg" "zl" "zr" ];
   gemdir = ./.;
 
   passthru.updateScript = bundlerUpdateScript "ruby-zoom";

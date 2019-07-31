@@ -1,12 +1,8 @@
-{ lib, bundlerEnv, ruby, bundlerUpdateScript }:
+{ lib, bundlerApp, bundlerUpdateScript }:
 
-bundlerEnv rec {
+bundlerApp {
   pname = "elm_install";
-  name = "elm-github-install-${version}";
-
-  version = (import ./gemset.nix).elm_install.version;
-
-  inherit ruby;
+  exes = [ "elm-install" ];
   gemdir = ./.;
 
   passthru.updateScript = bundlerUpdateScript "elm-github-install";
